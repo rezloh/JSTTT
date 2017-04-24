@@ -21,16 +21,17 @@ Game.prototype.isTaken = function (index) {
 };
 
 Game.prototype.move = function (position) {
-  var turn = this.whoseTurn();
+  var mark = this.whoseTurn();
 
   var index = position - 1;
   if (this.isTaken[index]) {
     return this.getMove()
   } else {
-    this.moves[index] = turn;
+    this.moves[index] = mark;
     this.turn++;
+    console.log(this.moves);
 
-    if (this.isOver) {
+    if (this.isOver()) {
       console.log(this.board);
       console.log(`The game is over! ${turn} wins! Do you want to play again?`);
       return;
@@ -45,7 +46,7 @@ Game.prototype.getMove = function () {
   var turn = this.whoseTurn();
   var context = this;
 
-  prompt.get(`Move: `, function (err, res) {
+  prompt.get(`Move`, function (err, res) {
     context.move(res.Move);
   });
 };
