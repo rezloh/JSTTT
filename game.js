@@ -1,14 +1,13 @@
-var helpers = require('./helpers.js');
 var prompt = require('prompt');
 
 var Game = function () {
   this.moves = ['', '', '', '', '', '', '', '', ''];
   this.board = `
-   ${moves[0]} | ${moves[1]} | ${moves[2]}
+   ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
   ---------
-   ${moves[3]} | ${moves[4]} | ${moves[5]}
+   ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
   ---------
-   ${moves[6]} | ${moves[7]} | ${moves[8]} `
+   ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
 
   this.turn = 0;
 };
@@ -33,7 +32,7 @@ Game.prototype.move = function (position) {
 
     if (this.isOver) {
       console.log(this.board);
-      console.log('The game is over!');
+      console.log(`The game is over! ${turn} wins! Do you want to play again?`);
       return;
     } else {
       console.log(this.board);
@@ -43,8 +42,11 @@ Game.prototype.move = function (position) {
 };
 
 Game.prototype.getMove = function () {
-  prompt.get('Move: ', function (err, res) {
-    this.move(res);
+  var turn = this.whoseTurn();
+  var context = this;
+
+  prompt.get(`Move: `, function (err, res) {
+    context.move(res.Move);
   });
 };
 
@@ -81,7 +83,7 @@ Game.prototype.isOver = function () {
   if (this.horizontalWin() ||
       this.verticalWin() ||
       this.diagonalWin() ||
-      this.board.indexOf('') < 0) {
+      this.moves.indexOf('') < 0) {
     return true;
   } else {
     return false;
@@ -89,8 +91,10 @@ Game.prototype.isOver = function () {
 };
 
 Game.prototype.init = function () {
-
+  var game = new Game();
+  console.log(game.board);
+  console.log('X goes first!')
+  game.getMove();
 }
-
 
 module.exports = Game;
