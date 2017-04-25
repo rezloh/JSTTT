@@ -2,15 +2,17 @@ var prompt = require('prompt');
 
 var Game = function () {
   this.moves = ['', '', '', '', '', '', '', '', ''];
-  this.board = `
-   ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
-  ---------
-   ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
-  ---------
-   ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
-
   this.turn = 0;
 };
+
+Game.prototype.printBoard = function () {
+  return  `
+     ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
+    ---------
+     ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
+    ---------
+     ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
+}
 
 Game.prototype.whoseTurn = function () {
   return this.turn % 2 === 0 ? 'X' : 'O';
@@ -29,14 +31,13 @@ Game.prototype.move = function (position) {
   } else {
     this.moves[index] = mark;
     this.turn++;
-    console.log(this.moves);
 
     if (this.isOver()) {
-      console.log(this.board);
-      console.log(`The game is over! ${turn} wins! Do you want to play again?`);
+      console.log(this.printBoard());
+      console.log(`The game is over! ${mark} wins! Do you want to play again?`);
       return;
     } else {
-      console.log(this.board);
+      console.log(this.printBoard());
       return this.getMove();
     }
   }
@@ -52,9 +53,9 @@ Game.prototype.getMove = function () {
 };
 
 Game.prototype.horizontalWin = function () {
-  if ((this.moves[0] && this.moves[1] && this.moves[2]) ||
-      (this.moves[3] && this.moves[4] && this.moves[5]) ||
-      (this.moves[6] && this.moves[7] && this.moves[8])) {
+  if ((this.moves[0] && this.moves[0] === this.moves[1] && this.moves[1] === this.moves[2]) ||
+      (this.moves[3] && this.moves[3] === this.moves[4] && this.moves[4] === this.moves[5]) ||
+      (this.moves[6] && this.moves[6] === this.moves[7] && this.moves[7] === this.moves[8])) {
         return true;
   } else {
     return false;
@@ -62,9 +63,9 @@ Game.prototype.horizontalWin = function () {
 };
 
 Game.prototype.verticalWin = function () {
-  if ((this.moves[0] && this.moves[3] && this.moves[6]) ||
-      (this.moves[1] && this.moves[4] && this.moves[7]) ||
-      (this.moves[2] && this.moves[5] && this.moves[8])) {
+  if ((this.moves[0] && this.moves[0] === this.moves[3] && this.moves[3] === this.moves[6]) ||
+      (this.moves[1] && this.moves[1] === this.moves[4] && this.moves[4] === this.moves[7]) ||
+      (this.moves[2] && this.moves[2] === this.moves[5] && this.moves[5] === this.moves[8])) {
         return true;
   } else {
     return false;
@@ -72,8 +73,8 @@ Game.prototype.verticalWin = function () {
 };
 
 Game.prototype.diagonalWin = function () {
-  if ((this.moves[0] && this.moves[4] && this.moves[8]) ||
-      (this.moves[2] && this.moves[4] && this.moves[6])) {
+  if ((this.moves[0] && this.moves[0] === this.moves[4] && this.moves[4] === this.moves[8]) ||
+      (this.moves[2] && this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
         return true;
   } else {
     return false;
@@ -84,7 +85,7 @@ Game.prototype.isOver = function () {
   if (this.horizontalWin() ||
       this.verticalWin() ||
       this.diagonalWin() ||
-      this.moves.indexOf('') < 0) {
+      this.turn === 9) {
     return true;
   } else {
     return false;
@@ -93,7 +94,7 @@ Game.prototype.isOver = function () {
 
 Game.prototype.init = function () {
   var game = new Game();
-  console.log(game.board);
+  console.log(game.printBoard());
   console.log('X goes first!')
   game.getMove();
 }
