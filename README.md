@@ -6,3 +6,4 @@
 ```sh
 node init.js
 ```
+> The time limit for this little challenge was 75 minutes!
