@@ -85,7 +85,7 @@ Game.prototype.verticalWin = function () {
 // Checks diagonal win
 Game.prototype.diagonalWin = function () {
   if ((this.moves[0] !== ' ' && this.moves[0] === this.moves[4] && this.moves[4] === this.moves[8]) ||
-      (this.moves[2] !== ' '&& this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
+      (this.moves[2] !== ' ' && this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
         return true;
   } else {
     return false;
