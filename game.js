@@ -2,7 +2,7 @@ var prompt = require('prompt');
 
 // Game class stores moves and turn count
 var Game = function () {
-  this.moves = ['', '', '', '', '', '', '', '', ''];
+  this.moves = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
   this.turn = 0;
 };
 
@@ -10,9 +10,9 @@ var Game = function () {
 Game.prototype.printBoard = function () {
   return  `
  ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
----------
+-----------
  ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
----------
+-----------
  ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
 }
 
@@ -37,10 +37,12 @@ Game.prototype.move = function (position) {
     this.moves[index] = mark;
     this.turn++;
 
-    if (this.isOver()) {
+    if (this.isOver() && this.turn !== 9) {
       console.log(this.printBoard());
       console.log(`The game is over! ${mark} wins! Do you want to play again?`);
       return;
+    } else if (this.isOver() && this.turn === 9) {
+      console.log('The cat wins!');
     } else {
       console.log(this.printBoard());
       return this.getMove();
@@ -60,9 +62,9 @@ Game.prototype.getMove = function () {
 
 // Checks horizontal win
 Game.prototype.horizontalWin = function () {
-  if ((this.moves[0] && this.moves[0] === this.moves[1] && this.moves[1] === this.moves[2]) ||
-      (this.moves[3] && this.moves[3] === this.moves[4] && this.moves[4] === this.moves[5]) ||
-      (this.moves[6] && this.moves[6] === this.moves[7] && this.moves[7] === this.moves[8])) {
+  if ((this.moves[0] !== ' ' && this.moves[0] === this.moves[1] && this.moves[1] === this.moves[2]) ||
+      (this.moves[3] !== ' ' && this.moves[3] === this.moves[4] && this.moves[4] === this.moves[5]) ||
+      (this.moves[6] !== ' ' && this.moves[6] === this.moves[7] && this.moves[7] === this.moves[8])) {
         return true;
   } else {
     return false;
@@ -71,9 +73,9 @@ Game.prototype.horizontalWin = function () {
 
 // Checks vertical win
 Game.prototype.verticalWin = function () {
-  if ((this.moves[0] && this.moves[0] === this.moves[3] && this.moves[3] === this.moves[6]) ||
-      (this.moves[1] && this.moves[1] === this.moves[4] && this.moves[4] === this.moves[7]) ||
-      (this.moves[2] && this.moves[2] === this.moves[5] && this.moves[5] === this.moves[8])) {
+  if ((this.moves[0] !== ' ' && this.moves[0] === this.moves[3] && this.moves[3] === this.moves[6]) ||
+      (this.moves[1] !== ' ' && this.moves[1] === this.moves[4] && this.moves[4] === this.moves[7]) ||
+      (this.moves[2] !== ' ' && this.moves[2] === this.moves[5] && this.moves[5] === this.moves[8])) {
         return true;
   } else {
     return false;
@@ -82,14 +84,13 @@ Game.prototype.verticalWin = function () {
 
 // Checks diagonal win
 Game.prototype.diagonalWin = function () {
-  if ((this.moves[0] && this.moves[0] === this.moves[4] && this.moves[4] === this.moves[8]) ||
-      (this.moves[2] && this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
+  if ((this.moves[0] !== ' ' && this.moves[0] === this.moves[4] && this.moves[4] === this.moves[8]) ||
+      (this.moves[2] !== ' '&& this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
         return true;
   } else {
     return false;
   };
 };
-
 
 // Determines if the game is over
 Game.prototype.isOver = function () {
