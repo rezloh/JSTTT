@@ -1,27 +1,32 @@
 var prompt = require('prompt');
 
+// Game class stores moves and turn count
 var Game = function () {
   this.moves = ['', '', '', '', '', '', '', '', ''];
   this.turn = 0;
 };
 
+// Prints board at each turn
 Game.prototype.printBoard = function () {
   return  `
-     ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
-    ---------
-     ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
-    ---------
-     ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
+ ${this.moves[0]} | ${this.moves[1]} | ${this.moves[2]}
+---------
+ ${this.moves[3]} | ${this.moves[4]} | ${this.moves[5]}
+---------
+ ${this.moves[6]} | ${this.moves[7]} | ${this.moves[8]} `;
 }
 
+// Determines X or O
 Game.prototype.whoseTurn = function () {
   return this.turn % 2 === 0 ? 'X' : 'O';
 };
 
+// Returns bool for open/taken space
 Game.prototype.isTaken = function (index) {
   return this.moves[index] ? true : false;
 };
 
+// Logic for selecting a move
 Game.prototype.move = function (position) {
   var mark = this.whoseTurn();
 
@@ -43,6 +48,7 @@ Game.prototype.move = function (position) {
   }
 };
 
+// Prompts the user to choose a move
 Game.prototype.getMove = function () {
   var turn = this.whoseTurn();
   var context = this;
@@ -52,6 +58,7 @@ Game.prototype.getMove = function () {
   });
 };
 
+// Checks horizontal win
 Game.prototype.horizontalWin = function () {
   if ((this.moves[0] && this.moves[0] === this.moves[1] && this.moves[1] === this.moves[2]) ||
       (this.moves[3] && this.moves[3] === this.moves[4] && this.moves[4] === this.moves[5]) ||
@@ -62,6 +69,7 @@ Game.prototype.horizontalWin = function () {
   };
 };
 
+// Checks vertical win
 Game.prototype.verticalWin = function () {
   if ((this.moves[0] && this.moves[0] === this.moves[3] && this.moves[3] === this.moves[6]) ||
       (this.moves[1] && this.moves[1] === this.moves[4] && this.moves[4] === this.moves[7]) ||
@@ -72,6 +80,7 @@ Game.prototype.verticalWin = function () {
   };
 };
 
+// Checks diagonal win
 Game.prototype.diagonalWin = function () {
   if ((this.moves[0] && this.moves[0] === this.moves[4] && this.moves[4] === this.moves[8]) ||
       (this.moves[2] && this.moves[2] === this.moves[4] && this.moves[4] === this.moves[6])) {
@@ -81,6 +90,8 @@ Game.prototype.diagonalWin = function () {
   };
 };
 
+
+// Determines if the game is over
 Game.prototype.isOver = function () {
   if (this.horizontalWin() ||
       this.verticalWin() ||
@@ -92,6 +103,7 @@ Game.prototype.isOver = function () {
   };
 };
 
+// Initializes a new game
 Game.prototype.init = function () {
   var game = new Game();
   console.log(game.printBoard());
